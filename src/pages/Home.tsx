@@ -29,6 +29,7 @@ const Home = () => {
       })
   }, [])
   return (
+    <div className="content">
     <div className="container">
       <div className="content__top">
         <Categories/>
@@ -45,6 +46,7 @@ const Home = () => {
           )
         })}
       </div>
+    </div>
     </div>
   );
 };
