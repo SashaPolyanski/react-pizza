@@ -1,17 +1,18 @@
 import React from "react";
 
-export const Categories = () => {
-  const [activeIndex, setActiveIndex] = React.useState(0)
+type CategoryPropsType = {
+  value: number
+  onClickCategory: (id: number) => void
+}
+
+export const Categories = ({value, onClickCategory}:CategoryPropsType) => {
   const categories = ['Все' , 'Мясные' , 'Вегетарианская', 'Гриль' , 'Острые' , 'Закрытые' ,]
-  const onClickCategory = (value: number) => {
-    setActiveIndex(value)
-  }
   return (
     <div className="categories">
       <ul>
         {categories.map((categ, index)=>{
           return(
-            <li key={index} onClick={()=>onClickCategory(index)} className={activeIndex === index ? "active" : ''}>{categ}</li>
+            <li key={index} onClick={()=>onClickCategory(index)} className={value === index ? "active" : ''}>{categ}</li>
           )
         })}
       </ul>
