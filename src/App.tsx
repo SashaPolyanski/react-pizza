@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import './scss/app.scss';
 import { Header } from "./components/Header";
@@ -9,17 +9,23 @@ import Cart from "./pages/Cart";
 
 
 function App() {
-
+  const [searchValue, setSearchValue] = React.useState('')
+  const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.currentTarget.value)
+  }
+  const clearSearchValue = () => {
+    setSearchValue('')
+  }
   return (
     <div className="App">
       <div className="wrapper">
-        <Header/>
+        <Header searchValue={searchValue} setSearchValue={setSearchHandler} clearSearchValue={clearSearchValue}/>
 
-          <Routes>
-            <Route path="/" element={<Home />}/>
-            <Route path='*' element={<NotFound/>}/>
-            <Route path='/cart' element={<Cart/>}/>
-          </Routes>
+        <Routes>
+          <Route path="/" element={<Home searchValue={searchValue}/>}/>
+          <Route path='*' element={<NotFound/>}/>
+          <Route path='/cart' element={<Cart/>}/>
+        </Routes>
 
       </div>
     </div>
