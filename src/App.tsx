@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import { Route, Routes } from 'react-router-dom';
 import Cart from "./pages/Cart";
 
+// @ts-ignore
+export const SearchContext = React.createContext()
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('')
@@ -17,9 +19,9 @@ function App() {
     setSearchValue('')
   }
   return (
-    <div className="App">
-      <div className="wrapper">
-        <Header searchValue={searchValue} setSearchValue={setSearchHandler} clearSearchValue={clearSearchValue}/>
+    <div className="wrapper">
+      <SearchContext.Provider value={{ searchValue, setSearchHandler, clearSearchValue }}>
+        <Header/>
 
         <Routes>
           <Route path="/" element={<Home searchValue={searchValue}/>}/>
@@ -27,7 +29,7 @@ function App() {
           <Route path='/cart' element={<Cart/>}/>
         </Routes>
 
-      </div>
+      </SearchContext.Provider>
     </div>
   );
 }

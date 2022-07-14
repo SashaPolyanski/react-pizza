@@ -3,14 +3,9 @@ import imgLogo from "../assets/img/pizza-logo.svg"
 import { NavLink } from "react-router-dom";
 import { Search } from "./search";
 
-type HeaderPropsType = {
-  setSearchValue: (e: ChangeEvent<HTMLInputElement>) => void
-  clearSearchValue: () => void
-  searchValue: string
-}
 
 
-export const Header = ({ searchValue, setSearchValue, clearSearchValue }: HeaderPropsType) => {
+export const Header = () => {
   return (
     <div className="header">
       <div className="container">
@@ -23,7 +18,7 @@ export const Header = ({ searchValue, setSearchValue, clearSearchValue }: Header
             </div>
           </div>
         </NavLink>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} clearSearchValue={clearSearchValue}/>
+        <Search/>
         <div className="header__cart">
           <NavLink to="/cart" className="button button--cart">
             <span>520 ₽</span>

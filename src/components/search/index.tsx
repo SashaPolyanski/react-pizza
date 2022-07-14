@@ -1,13 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useContext } from 'react';
 import s from './Search.module.scss'
+import { SearchContext } from "../../App";
 
-type SearchPropsType = {
-  setSearchValue: (e: ChangeEvent<HTMLInputElement>) => void
-  clearSearchValue: () => void
-  searchValue: string
-}
 
-export const Search = ({ searchValue, setSearchValue, clearSearchValue }: SearchPropsType) => {
+export const Search = () => {
+  // @ts-ignore
+  const {searchValue ,setSearchValue, clearSearchValue } = useContext(SearchContext)
   return (
     <div>
       <div className={s.root}>
@@ -32,7 +30,8 @@ export const Search = ({ searchValue, setSearchValue, clearSearchValue }: Search
         </svg>
         <input value={searchValue} className={s.input} placeholder="Search" onChange={setSearchValue}/>
         {searchValue &&
-          <svg onClick={clearSearchValue} className={s.clear} height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={clearSearchValue} className={s.clear} height="48" viewBox="0 0 48 48" width="48"
+               xmlns="http://www.w3.org/2000/svg">
             <path
               d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
             <path d="M0 0h48v48H0z" fill="none"/>
