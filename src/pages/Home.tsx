@@ -4,6 +4,9 @@ import { Sort } from "../components/Sort";
 import Skeleton from "../components/pizzaBlock/Skeleton";
 import { PizzaBlock } from "../components/pizzaBlock/PizzaBlock";
 import { Pagination } from "../components/pagination/Index";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { setCategoryID } from "../redux/slices/filterSlice";
 
 type ArrayItemsType = {
   id: number,
@@ -24,16 +27,17 @@ type HomePropsType = {
 }
 
 const Home = ({ searchValue }: HomePropsType) => {
+  const categoryID = useSelector((state: RootState) => state.filter.categoryID)
+  const sortType = useSelector((state: RootState) => state.filter.sort)
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState<Array<ArrayItemsType>>([])
-  const [categoryID, setCategoryID] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortType, setSortType] = useState<SortType>({ name: 'популярности', sort: 'rating' })
   const category = categoryID > 0 ? `category=${categoryID}` : ''
   const search = searchValue ? `search=${searchValue}` : ''
+  const dispatch = useDispatch()
   useEffect(() => {
     setLoading(true)
-    fetch(`https://62c3e72d7d83a75e39ea17ca.mockapi.io/items?page=${currentPage}&limit=4&${category}&${search}&sortBy=${sortType.sort}&order=desc`)
+    fetch(`https://62c3e72d7d83a75e39ea17ca.mockapi.io/items?page=${currentPage}&limit=4&${category}&${search}&sortBy=${sortType.sortType}&order=desc`)
       .then(res => {
         return res.json()
       })
@@ -43,10 +47,7 @@ const Home = ({ searchValue }: HomePropsType) => {
       })
   }, [categoryID, sortType, searchValue, currentPage])
   const onClickCategory = (value: number) => {
-    setCategoryID(value)
-  }
-  const onClickSort = (value: { name: string, sort: string }) => {
-    setSortType(value)
+    dispatch(setCategoryID(value))
   }
   const setCurrentPageHandler = (value: number) => {
     setCurrentPage(value)
@@ -62,7 +63,7 @@ const Home = ({ searchValue }: HomePropsType) => {
       <div className="container">
         <div className="content__top">
           <Categories onClickCategory={onClickCategory} value={categoryID}/>
-          <Sort value={sortType} onClickSort={onClickSort}/>
+          <Sort/>
         </div>
 
         <h2 className="content__title">Все пиццы</h2>
