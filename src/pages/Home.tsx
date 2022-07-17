@@ -18,10 +18,6 @@ type ArrayItemsType = {
   category: number,
   rating: number
 }
-type SortType = {
-  name: string
-  sort: string
-}
 type HomePropsType = {
   searchValue: string
 }
