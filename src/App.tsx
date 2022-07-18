@@ -12,8 +12,8 @@ export const SearchContext = React.createContext()
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('')
-  const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.currentTarget.value)
+  const setSearchHandler = (value: string) => {
+    setSearchValue(value)
   }
   const clearSearchValue = () => {
     setSearchValue('')

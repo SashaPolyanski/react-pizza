@@ -4,9 +4,10 @@ import s from './Pagintion.module.scss'
 
 type PaginationType = {
   setCurrentPageHandler: (value: number)=>void
+  currentPage: number
 }
 
-export const Pagination = ({setCurrentPageHandler}: PaginationType) => {
+export const Pagination = ({setCurrentPageHandler,currentPage}: PaginationType) => {
   return (
     <ReactPaginate
       className={s.pagination}
@@ -16,6 +17,7 @@ export const Pagination = ({setCurrentPageHandler}: PaginationType) => {
       pageRangeDisplayed={4}
       pageCount={3}
       previousLabel="<"
+      forcePage={currentPage-1}
     />
   );
 };

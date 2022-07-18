@@ -1,32 +1,46 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setCategoryID, setSort } from "../redux/slices/filterSlice";
 
 
-type SortPropsType = {
+type SortPropsType = {}
 
-}
-
-export const Sort = ({  }: SortPropsType) => {
+export const Sort = ({}: SortPropsType) => {
   const dispatch = useDispatch()
+  const sortRef = useRef<HTMLDivElement | null>(
+    null)
   const sort = useSelector((state: RootState) => state.filter.sort)
   const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState(0)
-  const list = [{ name: 'популярности', sort: 'rating' }, { name: 'цене', sort: 'price' }, {
+  const list = [{ name: 'популярности', sortType: 'rating' }, { name: 'цене', sortType: 'price' }, {
     name: 'алфавиту',
-    sort: 'title'
+    sortType: 'title'
   }]
   const openHandler = () => {
     setOpen(!open)
   }
-  const onClickListItem = (value: {name: string, sort: string}) => {
-    dispatch(setSort(value))
+  const onBlurHandler = () => {
     setOpen(false)
   }
+  const onClickListItem = (value: { name: string, sortType: string }) => {
+    dispatch(setSort(value))
+    setOpen(false)
 
+  }
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (!event.path.includes(sortRef.current)) {
+        setOpen(false)
+      }
+    }
+    document.body.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside)
+    }
+  },[])
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -46,7 +60,8 @@ export const Sort = ({  }: SortPropsType) => {
       {open && <div className="sort__popup">
         <ul>
           {list.map((obj, index) => <li onClick={() => onClickListItem(obj)}
-                                         className={sort.sortType === obj.sort ? 'active' : ''} key={index}>{obj.name}</li>)}
+                                        className={sort.sortType === obj.sortType ? 'active' : ''}
+                                        key={index}>{obj.name}</li>)}
         </ul>
       </div>}
 

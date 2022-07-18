@@ -6,7 +6,8 @@ import { PizzaBlock } from "../components/pizzaBlock/PizzaBlock";
 import { Pagination } from "../components/pagination/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { setCategoryID } from "../redux/slices/filterSlice";
+import { setCategoryID, setPageCount } from "../redux/slices/filterSlice";
+import axios from "axios";
 
 type ArrayItemsType = {
   id: number,
@@ -24,29 +25,43 @@ type HomePropsType = {
 
 const Home = ({ searchValue }: HomePropsType) => {
   const categoryID = useSelector((state: RootState) => state.filter.categoryID)
-  const sortType = useSelector((state: RootState) => state.filter.sort)
+  const sortType = useSelector((state: RootState) => state.filter.sort.sortType)
+  const currentPage = useSelector((state: RootState) => state.filter.pageCount)
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState<Array<ArrayItemsType>>([])
-  const [currentPage, setCurrentPage] = useState(1)
   const category = categoryID > 0 ? `category=${categoryID}` : ''
   const search = searchValue ? `search=${searchValue}` : ''
   const dispatch = useDispatch()
+
+  // useEffect(()=>{
+  //   if(window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1))
+  //     dispatch(setFilters(params))
+  //   }
+  // },[])
+
   useEffect(() => {
     setLoading(true)
-    fetch(`https://62c3e72d7d83a75e39ea17ca.mockapi.io/items?page=${currentPage}&limit=4&${category}&${search}&sortBy=${sortType.sortType}&order=desc`)
+    axios.get(`https://62c3e72d7d83a75e39ea17ca.mockapi.io/items?page=${currentPage}&limit=4&${category}&${search}&sortBy=${sortType}&order=desc`)
       .then(res => {
-        return res.json()
-      })
-      .then(res => {
-        setItems(res)
+        setItems(res.data)
         setLoading(false)
       })
   }, [categoryID, sortType, searchValue, currentPage])
+
+// useEffect(()=>{
+//   const queryString = qs.stringify({
+//     categoryID,
+//     sort: sortType.name,
+//     currentPage
+//   })
+//   navigate(`?${queryString}`)
+// },[categoryID, sortType.name, currentPage])
   const onClickCategory = (value: number) => {
     dispatch(setCategoryID(value))
   }
   const setCurrentPageHandler = (value: number) => {
-    setCurrentPage(value)
+    dispatch(setPageCount(value))
   }
   const pizzas = items.map((item) => <PizzaBlock key={item.id} id={item.id} img={item.imageUrl} title={item.title}
                                                  price={item.price}
@@ -67,7 +82,7 @@ const Home = ({ searchValue }: HomePropsType) => {
           {loading ? skeletons : pizzas}
         </div>
       </div>
-      <Pagination setCurrentPageHandler={setCurrentPageHandler}/>
+      <Pagination currentPage={currentPage} setCurrentPageHandler={setCurrentPageHandler}/>
     </div>
   );
 };

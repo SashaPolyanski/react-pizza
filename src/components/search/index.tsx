@@ -1,11 +1,28 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import s from './Search.module.scss'
 import { SearchContext } from "../../App";
-
+import debounce from 'lodash.debounce';
 
 export const Search = () => {
   // @ts-ignore
-  const {searchValue ,setSearchValue, clearSearchValue } = useContext(SearchContext)
+
+  const { searchValue, setSearchValue, setSearchHandler } = useContext(SearchContext)
+  const [value, setValue] = useState('')
+  const inputRef = useRef<HTMLInputElement | null>(
+    null)
+  const onClickInput = () => {
+    inputRef.current?.focus()
+  }
+  const searchDebounce = React.useCallback(
+    debounce((value) => {
+        setSearchHandler(value)
+      }, 1000),
+    [],
+    )
+  const changeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+    searchDebounce(e.currentTarget.value);
+  }
   return (
     <div>
       <div className={s.root}>
@@ -28,9 +45,10 @@ export const Search = () => {
             </g>
           </g>
         </svg>
-        <input value={searchValue} className={s.input} placeholder="Search" onChange={setSearchValue}/>
-        {searchValue &&
-          <svg onClick={clearSearchValue} className={s.clear} height="48" viewBox="0 0 48 48" width="48"
+        <input ref={inputRef} value={value} className={s.input} placeholder="Search"
+               onChange={changeInputValueHandler}/>
+        {value &&
+          <svg onClick={onClickInput} className={s.clear} height="48" viewBox="0 0 48 48" width="48"
                xmlns="http://www.w3.org/2000/svg">
             <path
               d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
