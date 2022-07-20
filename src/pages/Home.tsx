@@ -33,12 +33,6 @@ const Home = ({ searchValue }: HomePropsType) => {
   const search = searchValue ? `search=${searchValue}` : ''
   const dispatch = useDispatch()
 
-  // useEffect(()=>{
-  //   if(window.location.search) {
-  //     const params = qs.parse(window.location.search.substring(1))
-  //     dispatch(setFilters(params))
-  //   }
-  // },[])
 
   useEffect(() => {
     setLoading(true)

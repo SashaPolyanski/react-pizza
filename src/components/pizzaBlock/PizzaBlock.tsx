@@ -17,6 +17,7 @@ export const PizzaBlock: FC<PizzaBlockType> = ({ title, price, img, sizes, types
   const typesNames = ['Тонкое', 'Традиционное']
   const count = useSelector((state: RootState) => state.cart.items.find(obj => obj.id === id))
   const dispatch = useDispatch()
+  console.log(count)
   const [activeType, setActiveType] = React.useState(0)
   const [activeSize, setActiveSize] = React.useState(0)
   const onClickAdd = () => {
