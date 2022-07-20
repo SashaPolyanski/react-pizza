@@ -67,7 +67,7 @@ const Home = ({ searchValue }: HomePropsType) => {
                                                  price={item.price}
                                                  sizes={item.sizes} types={item.types}/>
   )
-  const skeletons = [...new Array(10)].map((_, index) => <Skeleton key={index}/>)
+  const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index}/>)
 
   return (
     <div className="content">
