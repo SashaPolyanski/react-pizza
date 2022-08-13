@@ -15,7 +15,7 @@ export const Pagination = ({setCurrentPageHandler,currentPage}: PaginationType) 
       nextLabel=">"
       onPageChange={(event)=>{setCurrentPageHandler(event.selected + 1)}}
       pageRangeDisplayed={4}
-      pageCount={3}
+      pageCount={5}
       previousLabel="<"
       forcePage={currentPage-1}
     />
