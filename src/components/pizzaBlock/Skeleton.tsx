@@ -2,8 +2,9 @@ import React from "react"
 import ContentLoader from "react-content-loader"
 
 
-const Skeleton = () => (
+export const Skeleton = () => (
   <ContentLoader
+      className='pizza-block'
     speed={2}
     width={280}
     height={465}
@@ -21,5 +22,3 @@ const Skeleton = () => (
     <rect x="239" y="398" rx="0" ry="0" width="4" height="3" />
   </ContentLoader>
 )
-
-export default Skeleton

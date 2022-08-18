@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import s from './Search.module.scss'
-import { SearchContext } from "../../App";
 import debounce from 'lodash.debounce';
 
 export const Search = () => {

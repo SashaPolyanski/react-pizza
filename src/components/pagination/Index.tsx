@@ -19,5 +19,6 @@ export const Pagination = ({setCurrentPageHandler,currentPage}: PaginationType) 
       previousLabel="<"
       forcePage={currentPage-1}
     />
+    
   );
 };

@@ -1,21 +1,23 @@
-import React from "react";
+import {memo} from "react";
 
-type CategoryPropsType = {
-  value: number
-  onClickCategory: (id: number) => void
+type CategoriesPropsType = {
+    value: number
+    onChangeCategory: (id: number) => void
 }
 
-export const Categories = ({value, onClickCategory}:CategoryPropsType) => {
-  const categories = ['Все' , 'Мясные' , 'Вегетарианская', 'Гриль' , 'Острые' , 'Закрытые' ,]
-  return (
-    <div className="categories">
-      <ul>
-        {categories.map((categ, index)=>{
-          return(
-            <li key={index} onClick={()=>onClickCategory(index)} className={value === index ? "active" : ''}>{categ}</li>
-          )
-        })}
-      </ul>
-    </div>
-  )
-}
+export const Categories = memo(({value, onChangeCategory}: CategoriesPropsType) => {
+    const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые',]
+
+    return (
+        <div className="categories">
+            <ul>
+                {categories.map((category, index) => {
+                    return (
+                        <li key={index} onClick={() => onChangeCategory(index)}
+                            className={value === index ? "active" : ''}>{category}</li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
+})
