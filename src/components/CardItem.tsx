@@ -25,7 +25,7 @@ export const CardItem = ({id, price, count, imageUrl, title, type, size}: CartIt
     }
 
     const onClickRemove =() =>{
-        if(window.confirm('Вы действительно хотите удалить ваш заказ?')){
+        if(window.confirm('Вы действительно хотите удалить заказ?')){
             dispatch(removeItem({id}))
         }
 
