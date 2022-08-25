@@ -24,8 +24,8 @@ export const Search = ({}: SearchPropsType) => {
     }
 
     const updateSearchValue = React.useCallback(
-        debounce((str: string) => {
-            dispatch(setSearchValue({searchValue: str}))
+        debounce((string: string) => {
+            dispatch(setSearchValue({searchValue: string}))
         }, 1000), []
     )
 
